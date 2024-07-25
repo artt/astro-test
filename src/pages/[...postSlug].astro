@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import MarkdownPostLayout from '../layouts/MarkdownPostLayout.astro';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('posts')
+  return blogEntries.map(entry => {
+    // test if entry.id ends with .(en|th).mdx?
+    const matchBilingual = entry.id.match(/(?:(.*?)\/)?([^\/]*?)\.(th|en)\.mdx?$/)
+    if (matchBilingual) {
+      let mainSlug = ""
+      if (matchBilingual[2] === "index") {
+        // if the file is index.(en|th).mdx, then mainSlug should be matchBilingual[1]
+        mainSlug = matchBilingual[1]
+      }
+      else {
+        // otherwise, mainSlug should be matchBilingual[1] + "/" + matchBilingual[2]
+        mainSlug = `${matchBilingual[1]}/${matchBilingual[2]}`
+      }
+      return {
+        params: { postSlug: `${matchBilingual[3] === "en" ? "en/" : ""}posts/${mainSlug}` },
+        props: { entry },
+      };
+    }
+    return {
+      params: { postSlug: `posts/${entry.slug}` },
+      props: { entry },
+    };
+  });
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+<MarkdownPostLayout frontmatter={entry.data}>
+  <Content />
+</MarkdownPostLayout>

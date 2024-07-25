@@ -1,9 +1,14 @@
 ---
+import { Picture } from 'astro:assets';
+import dogImage from '../assets/dog.jpg';
+
 import Greeting from '../components/Greeting';
 import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "Home Page";
 ---
 <BaseLayout pageTitle={pageTitle}>
   <h2>My awesome blog subtitle</h2>
+  <Picture src={dogImage} alt="A bird."/>
+
   <Greeting client:load messages={["Hi", "Hello", "Howdy", "Hey there"]} />
 </BaseLayout>
