@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLocale } from "astro-i18n-aut";
 import '../styles/global.css';
 
 const pageTitle = "About Me"
+
+const locale = getLocale(Astro.url);
 
 const identity = {
   firstName: "Sarah",
@@ -20,6 +23,7 @@ const goal = 3;
 ---
 
 <BaseLayout pageTitle={pageTitle}>
+  {locale === "th" ? <h2>เกี่ยวกับฉัน</h2> : <h2>About Me</h2>}
   <h2>... and my new Astro site!</h2>
 
   <p>

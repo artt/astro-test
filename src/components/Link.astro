@@ -1,0 +1,6 @@
+---
+let { href } = Astro.props;
+// if href doesn't include trailing slash, include it
+href = href.endsWith("/") ? href : `${href}/`;
+---
+<a href={href} target="_blank"><slot /></a>
